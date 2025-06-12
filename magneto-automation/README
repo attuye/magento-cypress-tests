@@ -1,0 +1,37 @@
+# Magento Cypress Test Automation
+This project contains Cypress automated tests for a Magento e-commerce application.
+
+## 📦 Prerequisites
+
+- Node.js >= 16
+- npm or yarn
+
+## 🚀 Getting Started
+
+### Clone the repo
+
+```bash
+git clone https://github.com/attuye/magento-cypress-tests.git
+cd magneto-automation
+
+```
+### Install dependencies
+npm install
+
+### Add .env file
+Create a .env file in the root directory with the following variables:
+
+USER_EMAIL=your-test-user
+USER_PASSWORD=your-test-password
+
+### Running Tests
+Headed(with browser)
+```bash
+npx cypress open
+```
+Headless and Generate HTML Report
+```bash
+npx cypress run
+```
+The generated HTML report will be found under cypress/reports folder, i.e mochawesome.html
+Sample report is already added.

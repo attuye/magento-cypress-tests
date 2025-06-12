@@ -1,0 +1,17 @@
+# Cypress
+magneto-automation/cypress/videos/
+magneto-automation/cypress/downloads/
+
+# Node
+magneto-automation/node_modules/
+magneto-automation/.env
+dist/
+.DS_Store
+
+# Reports
+*.html
+*.json
+
+# IDE / OS files
+.vscode/
+.idea/
