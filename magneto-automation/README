@@ -12,7 +12,7 @@ This project contains Cypress automated tests for a Magento e-commerce applicati
 
 ```bash
 git clone https://github.com/attuye/magento-cypress-tests.git
-cd magneto-automation
+cd magneto-cypress-tests\magneto-automation
 
 ```
 ### Install dependencies
