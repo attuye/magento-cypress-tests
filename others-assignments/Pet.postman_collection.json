@@ -1,0 +1,152 @@
+{
+	"info": {
+		"_postman_id": "ed7fa4f6-883f-419f-9c1a-802db16017f1",
+		"name": "Pet",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "42717609"
+	},
+	"item": [
+		{
+			"name": "Add new pet",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"// Define status options\r",
+							"const statuses = [\"available\", \"pending\", \"sold\"];\r",
+							"// Pick random status\r",
+							"const randomStatus = statuses[Math.floor(Math.random() * statuses.length)];\r",
+							"// Set as a variable\r",
+							"pm.environment.set(\"randomStatus\", randomStatus);"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"// Parse response and set petId as variable\r",
+							"pm.test(\"Verify status code is 200\", function() {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Verify response has 'id' field\", function() {\r",
+							"    const response = pm.response.json();\r",
+							"    pm.expect(response).to.have.property(\"status\");\r",
+							"});\r",
+							"pm.test(\"Verify response has 'status' field\", function() {\r",
+							"    const response = pm.response.json();\r",
+							"    pm.expect(response).to.have.property(\"status\");\r",
+							"});\r",
+							"const response = pm.response.json();\r",
+							"pm.environment.set(\"petId\", response.id);"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "apikey",
+					"apikey": [
+						{
+							"key": "value",
+							"value": "{{api_key}}",
+							"type": "string"
+						},
+						{
+							"key": "key",
+							"value": "api_key",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"id\": \"{{$randomInt}}\",\r\n    \"category\": {\r\n        \"id\": \"{{$randomInt}}\",\r\n        \"name\": \"{{$randomWord}}\"\r\n    },\r\n    \"name\": \"{{$randomWord}}\",\r\n    \"photoUrls\": [\r\n        \"{{$randomImageUrl}}\"\r\n    ],\r\n    \"tags\": [\r\n        {\r\n            \"id\": \"{{$randomInt}}\",\r\n            \"name\": \"{{$randomInt}}\"\r\n        }\r\n    ],\r\n    \"status\": \"{{randomStatus}}\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/v2/pet",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"v2",
+						"pet"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get pet by Id",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"// Parse response and set petId as variable\r",
+							"pm.test(\"Verify status code is 200\", function() {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test('Verify pet id is correct', function() {\r",
+							"    const response = pm.response.json()\r",
+							"    pm.expect(response.id).to.eql(pm.environment.get('petId'))\r",
+							"})\r",
+							"\r",
+							"pm.test(\"Verify status matches expected random value\", function() {\r",
+							"    const response = pm.response.json();\r",
+							"    pm.expect(response.status).to.eql(pm.variables.get('randomStatus'));\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "apikey",
+					"apikey": [
+						{
+							"key": "value",
+							"value": "{{api_key}}",
+							"type": "string"
+						},
+						{
+							"key": "key",
+							"value": "api_key",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/v2/pet/{{petId}}",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"v2",
+						"pet",
+						"{{petId}}"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
